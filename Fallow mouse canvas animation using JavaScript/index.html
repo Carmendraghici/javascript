@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <title>Follow Mouse</title>
+          <link rel="stylesheet" href="main.css">
+     </head>
+     <body onload="followMouse();">
+          <!-- Metoda 1 cand desenam din css elementul -->
+          <div class="wrap">
+               <div id="ball"></div>
+          </div>
+          <!-- Metoda 2 cand generam elementul  -->
+          <canvas id="myCanvas" width="350" height="300"></canvas>
+          <script type="text/javascript">
+               //text
+               //https://www.html5canvastutorials.com/tutorials/html5-canvas-gradient-text-tutorial/
+               var canvas = document.getElementById("myCanvas");
+               var ctx = canvas.getContext('2d');
+               ctx.shadowColor = "rgb(190, 190, 190)";
+               ctx.shadowOffsetX = 10;
+               ctx.shadowOffsetY = 10
+               ctx.shadowBlur = 10;
+               ctx.font = "50px arial";
+               var gradient = ctx.createLinearGradient(0, 0, 150, 100);
+               gradient.addColorStop(0, "rgb(255, 0, 128)");
+               gradient.addColorStop(1, "rgb(255, 153, 51)");
+               ctx.fillStyle = gradient;
+               ctx.fillText("#StămÎnCasă", 10, 55);
+
+
+               //cerc
+               //https://dev.to/mrahmadawais/use-instead-of-document-queryselector-all-in-javascript-without-jquery-3ef1
+               var $ = document.querySelector.bind(document);
+               var $on = document.addEventListener.bind(document);
+
+               var xmouse, ymouse;
+               $on('mousemove', function (e) {
+                    xmouse = e.clientX || e.pageX;
+                    ymouse = e.clientY || e.pageY;
+               });
+
+               var ball = $('#ball');
+               var x = void 0,
+                    y = void 0,
+                    dx = void 0,
+                    dy = void 0,
+                    tx = 0,
+                    ty = 0,
+                    key = -1;
+
+               var followMouse = function followMouse() {
+                    key = requestAnimationFrame(followMouse);
+
+                    if (!x || !y) {
+                         x = xmouse;
+                         y = ymouse;
+                    } else {
+                         dx = (xmouse - x) * 0.125;
+                         dy = (ymouse - y) * 0.125;
+                         if (Math.abs(dx) + Math.abs(dy) < 0.1) {
+                              x = xmouse;
+                              y = ymouse;
+                         } else {
+                              x += dx;
+                              y += dy;
+                         }
+                    }
+                    canvas.style.left = x + 'px';
+                    canvas.style.top = y + 'px';
+               };
+
+          </script>
+
+     </body>
+
+</html>
